@@ -70,6 +70,7 @@ RUN set -ex && \
 
 ENV RPC_USER=
 ENV RPC_PASSWORD=
+ENV RPC_WHITELIST=
 ENV UMASK=
 ENV TZ=America/Chicago
 

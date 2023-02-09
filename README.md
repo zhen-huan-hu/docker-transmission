@@ -40,6 +40,7 @@ services:
     environment:
       - RPC_USER=admin
       - RPC_PASSWORD=password
+      - RPC_WHITELIST=127.0.0.1,192.168.1.*
       - UMASK=002
       - TZ=America/Chicago
     volumes:
@@ -60,8 +61,9 @@ docker run -d \
   -p 9091:9091/tcp \
   -e RPC_USER=admin \
   -e RPC_PASSWORD=password \
-  -e UMASK=002
-  -e TZ=America/Chicago
+  -e RPC_WHITELIST=127.0.0.1,192.168.1.* \
+  -e UMASK=002 \
+  -e TZ=America/Chicago \
   -v /var/containers/transmission/config:/config \
   -v /var/containers/transmission/watch:/watch \
   -v /var/containers/transmission/download:/download \
@@ -73,6 +75,7 @@ docker run -d \
 | Name | Function |
 | --- | --- |
 | `RPC_USER` | Set RPC user name |
-| `RPC_PASSWORD` | Set PRC password |
+| `RPC_PASSWORD` | Set RPC password |
+| `RPC_WHITELIST` | Set comma-delimited list of IP addresses allowed for RPC |
 | `UMASK` | Change default file permission https://en.wikipedia.org/wiki/Umask |
 | `TZ` | Change default time zone |

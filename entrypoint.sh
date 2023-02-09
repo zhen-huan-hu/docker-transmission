@@ -17,6 +17,19 @@ if [ -n "${RPC_USER}" ] && [ -n "${RPC_PASSWORD}" ]; then
         ) > /config/settings.json
 fi
 
+if [ -n "${RPC_WHITELIST}" ]; then
+    echo $(jq \
+            --arg RPC_WHITELIST "${RPC_WHITELIST}" \
+            '."rpc-whitelist-enabled" = true | ."rpc-whitelist" = $RPC_WHITELIST' \
+            /config/settings.json
+        ) > /config/settings.json
+else
+    echo $(jq \
+            '."rpc-whitelist-enabled" = false' \
+            /config/settings.json
+        ) > /config/settings.json
+fi
+
 if [ -n "${UMASK}" ]; then
     echo $(jq \
             --arg UMASK "${UMASK}" \
