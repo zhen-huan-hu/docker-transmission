@@ -10,14 +10,6 @@ RUN set -ex; \
       nano \
       ca-certificates \
       curl \
-      libcurl4-openssl-dev \
-      libdeflate-dev \
-      libevent-dev \
-      libfmt-dev \
-      libminiupnpc-dev \
-      libnatpmp-dev \
-      libpsl-dev \
-      libssl-dev \
       jq
 
 FROM base AS builder
@@ -27,12 +19,12 @@ ARG BTAG=4.0.0
 RUN set -ex; \
     apt-get install -y --no-install-recommends \
       git \
+      python3 \
+      build-essential \
       cmake \
-      g++ \
-      gettext \
       ninja-build \
-      pkg-config \
-      xz-utils
+      libcurl4-openssl-dev \
+      libssl-dev
 
 WORKDIR /usr/src
 RUN git config --global advice.detachedHead false; \
@@ -45,13 +37,13 @@ RUN git submodule update --init --recursive; \
       -B obj \
       -G Ninja \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-      -DENABLE_CLI=ON \
+      -DENABLE_CLI=OFF \
       -DENABLE_DAEMON=ON \
       -DENABLE_GTK=OFF \
       -DENABLE_MAC=OFF \
       -DENABLE_QT=OFF \
       -DENABLE_TESTS=OFF \
-      -DENABLE_UTILS=ON \
+      -DENABLE_UTILS=OFF \
       -DENABLE_WEB=OFF \
       -DRUN_CLANG_TIDY=OFF; \
     cmake --build obj --config RelWithDebInfo; \

@@ -17,7 +17,7 @@ The image honors the `--user` option for setting user and group ID inside the co
 ## Build an Docker Image
 
 ```
-docker build -t transmission:4.0.0-ubuntu .
+docker build -t transmission:4.0.0-debian .
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ version: '2.4'
 
 services:
   transmission:
-    image: transmission:4.0.0-ubuntu
+    image: transmission:4.0.0-debian
     container_name: transmission
     restart: unless-stopped
     user: "1000:1000"
@@ -67,7 +67,7 @@ docker run -d \
   -v /var/containers/transmission/config:/config \
   -v /var/containers/transmission/watch:/watch \
   -v /var/containers/transmission/download:/download \
-  transmission:4.0.0-ubuntu
+  transmission:4.0.0-debian
 ```
 
 ## Environment Variables
