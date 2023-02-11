@@ -1,30 +1,31 @@
-FROM docker.io/debian:stable-slim AS base
+FROM docker.io/alpine:edge AS base
 
-RUN set -ex; \
-    apt-get update; \
-    apt-get dist-upgrade -y; \
-    apt-get install -y --no-install-recommends \
-      tzdata \
-      iproute2 \
-      net-tools \
-      nano \
-      ca-certificates \
-      curl \
-      jq
+RUN set -ex && \
+    apk update && \
+    apk add --no-cache --upgrade \
+        jq \
+        libcurl \
+        libintl \
+        libgcc \
+        libssl3 \
+        libstdc++ \
+        tzdata
 
 FROM base AS builder
 
 ARG BTAG=4.0.0
 
-RUN set -ex; \
-    apt-get install -y --no-install-recommends \
+RUN set -ex && \
+    apk add --no-cache --upgrade \
       git \
       python3 \
-      build-essential \
+      build-base \
       cmake \
-      ninja-build \
-      libcurl4-openssl-dev \
-      libssl-dev
+      curl-dev \
+      gettext-dev \
+      openssl-dev \
+      linux-headers \
+      samurai
 
 WORKDIR /usr/src
 RUN git config --global advice.detachedHead false; \
@@ -36,7 +37,7 @@ RUN git submodule update --init --recursive; \
       -S . \
       -B obj \
       -G Ninja \
-      -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+      -DCMAKE_BUILD_TYPE=Release \
       -DENABLE_CLI=OFF \
       -DENABLE_DAEMON=ON \
       -DENABLE_GTK=OFF \
@@ -45,9 +46,11 @@ RUN git submodule update --init --recursive; \
       -DENABLE_TESTS=OFF \
       -DENABLE_UTILS=OFF \
       -DENABLE_WEB=OFF \
-      -DRUN_CLANG_TIDY=OFF; \
-    cmake --build obj --config RelWithDebInfo; \
-    cmake --build obj --config RelWithDebInfo --target install/strip
+      -DRUN_CLANG_TIDY=OFF \
+      -DWITH_CRYPTO="openssl" \
+      -DWITH_SYSTEMD=OFF && \
+    cmake --build obj --config Release; \
+    cmake --build obj --config Release --target install/strip
 
 FROM base AS runtime
 
