@@ -37,6 +37,7 @@ By default, having a standalone directory for incomplete torrent files is disabl
 | `RPC_USER` | Set RPC user name |
 | `RPC_PASSWORD` | Set RPC password |
 | `RPC_WHITELIST` | Set comma-delimited list of IP addresses allowed for RPC |
+| `RPC_HOST_WHITELIST` | Set white list of domain names allowed for the host |
 | `UMASK` | Change default file permission https://en.wikipedia.org/wiki/Umask |
 | `TZ` | Change default time zone |
 
