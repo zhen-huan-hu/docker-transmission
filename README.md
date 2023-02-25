@@ -16,7 +16,8 @@ This Docker image is based on Alpine Linux to minimize size.
 ### Listening ports
 
 By default, the Transmission daemon listens to port `51413` for bittorrent traffic and port `9091` for RPC connection.
-There is no built-in Web UI so a seperate container for the Web UI is needed or use the Qt client.
+There is a built-in Web UI that can be connected through port `9091` in a web browser.
+The user can also use the Qt client to remotely control the daemon (thin-client mode).
 
 ### Volumes
 
@@ -50,7 +51,7 @@ and the `--group-add` option for setting secondary group IDs.
 ### How to build the image
 
 ```shell
-docker build -t transmission:4.0.0-alpine .
+docker build -t transmission:4.0.1-alpine .
 ```
 
 ### Execute Docker command in CLI
@@ -71,7 +72,7 @@ docker run -d \
   -v /var/containers/transmission/config:/config \
   -v /var/containers/transmission/watch:/watch \
   -v /var/containers/transmission/download:/download \
-  transmission:4.0.0-alpine
+  transmission:4.0.1-alpine
 ```
 ### Write a `docker-compose.yml` file
 
@@ -80,7 +81,7 @@ version: '2.4'
 
 services:
   transmission:
-    image: transmission:4.0.0-alpine
+    image: transmission:4.0.1-alpine
     container_name: transmission
     restart: unless-stopped
     user: "1000:1000"

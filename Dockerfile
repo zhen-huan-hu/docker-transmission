@@ -13,7 +13,7 @@ RUN set -ex && \
 
 FROM base AS builder
 
-ARG BTAG=4.0.0
+ARG BTAG=4.0.1
 
 RUN set -ex && \
     apk add --no-cache --upgrade \
@@ -45,7 +45,6 @@ RUN git submodule update --init --recursive; \
       -DENABLE_QT=OFF \
       -DENABLE_TESTS=OFF \
       -DENABLE_UTILS=OFF \
-      -DENABLE_WEB=OFF \
       -DRUN_CLANG_TIDY=OFF \
       -DWITH_CRYPTO="openssl" \
       -DWITH_SYSTEMD=OFF && \

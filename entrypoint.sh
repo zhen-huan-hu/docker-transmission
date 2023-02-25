@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -e
+set -eu
 
 mkdir -p /config/log
 
