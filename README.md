@@ -6,7 +6,8 @@ Credit goes to @Nemric and @pigsyn:
  - https://github.com/Relativ-IT/TransmissionBT
 
 The image listens to port `51413` by default for torrent traffic and port `9091` for RPC connection.
-There is no Web UI built-in so a seperate container for Transmission Web UI is needed or use the QT client.
+There is a built-in Web UI that can be connected at port `9091` through a web browser.
+Users can also launch the Qt client to remotely control the daemon (thin-client mode).
 
 The image expects three bind volumes: `\config` for configuratoin directory,
 `\watch` for watch directory, and `\download` for default download location.
@@ -17,7 +18,7 @@ The image honors the `--user` option for setting user and group ID inside the co
 ## Build an Docker Image
 
 ```
-docker build -t transmission:4.0.0-alpine .
+docker build -t transmission:latest-alpine .
 ```
 
 ## Usage
@@ -29,7 +30,7 @@ version: '2.4'
 
 services:
   transmission:
-    image: transmission:4.0.0-alpine
+    image: transmission:latest-alpine
     container_name: transmission
     restart: unless-stopped
     user: "1000:1000"
@@ -67,7 +68,7 @@ docker run -d \
   -v /var/containers/transmission/config:/config \
   -v /var/containers/transmission/watch:/watch \
   -v /var/containers/transmission/download:/download \
-  transmission:4.0.0-alpine
+  transmission:latest-alpine
 ```
 
 ## Environment Variables
@@ -77,5 +78,6 @@ docker run -d \
 | `RPC_USER` | Set RPC user name |
 | `RPC_PASSWORD` | Set RPC password |
 | `RPC_WHITELIST` | Set comma-delimited list of IP addresses allowed for RPC |
+| `RPC_HOST_WHITELIST` | Set white list of domain names allowed for the host |
 | `UMASK` | Change default file permission https://en.wikipedia.org/wiki/Umask |
 | `TZ` | Change default time zone |

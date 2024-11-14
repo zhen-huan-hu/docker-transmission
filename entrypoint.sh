@@ -30,6 +30,19 @@ else
         ) > /config/settings.json
 fi
 
+if [ -n "${RPC_HOST_WHITELIST}" ]; then
+    echo $(jq \
+            --arg RPC_HOST_WHITELIST "${RPC_HOST_WHITELIST}" \
+            '."rpc-host-whitelist-enabled" = true | ."rpc-host-whitelist" = $RPC_HOST_WHITELIST' \
+            /config/settings.json
+        ) > /config/settings.json
+else
+    echo $(jq \
+            '."rpc-host-whitelist-enabled" = false' \
+            /config/settings.json
+        ) > /config/settings.json
+fi
+
 if [ -n "${UMASK}" ]; then
     echo $(jq \
             --arg UMASK "${UMASK}" \
